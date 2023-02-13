@@ -4,21 +4,30 @@ import { ExpenseContext } from "../store/expenses-reducer.tsx";
 const AddExpense = () => {
   const { addExpenses, expenses } = useContext(ExpenseContext);
   const nameRef = useRef(null);
+  const amountRef = useRef(null);
 
   const onSubmit = (event) => {
     event.preventDefault();
-    addExpenses({ name: "dsad", amount: 33, id: 312321 });
+    addExpenses({
+      name: nameRef.current.value,
+      amount: amountRef.current.value,
+    });
   };
 
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <input ref={nameRef} />
+        <input ref={nameRef} required />
+        <input ref={amountRef} required />
         <button type="submit">Add</button>
       </form>
 
       {expenses.map((expense) => (
-        <p key={expense.id}>{expense.name}</p>
+        <div key={expense.id}>
+          <p>{expense.name}</p>
+          <span>{expense.amount}</span>
+          <span>{expense?.dateAdded}</span>
+        </div>
       ))}
     </div>
   );

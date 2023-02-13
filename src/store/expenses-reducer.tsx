@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const ExpenseContext = createContext({
   expenses: [],
-  addExpenses: (expense) => {
+  addExpenses: ({ name, amount }) => {
     return;
   },
 });
@@ -14,7 +14,12 @@ const ExpensesProvider = (props) => {
   function addExpenses({ name, amount, id }) {
     setExpenses((prevExpenses) => [
       ...prevExpenses,
-      { name, amount, id: uuidv4() },
+      {
+        name,
+        amount,
+        id: uuidv4(),
+        dateAdded: new Date().toLocaleDateString(),
+      },
     ]);
   }
 
