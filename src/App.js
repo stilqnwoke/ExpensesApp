@@ -1,5 +1,5 @@
 import "./App.css";
-import AddExpense from "./components/AddExpense.tsx";
+import AddExpense from "./components/expenses/AddExpense.tsx";
 
 function App() {
   return (

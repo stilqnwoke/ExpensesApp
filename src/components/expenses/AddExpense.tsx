@@ -1,14 +1,14 @@
 import React, { useContext, useRef } from "react";
-import { ExpenseContext } from "../store/expenses-reducer.tsx";
+import { ExpenseContext } from "../../store/expenses-reducer.tsx";
 
 const AddExpense = () => {
-  const { addExpenses, expenses } = useContext(ExpenseContext);
+  const { addExpense, expenses, deleteExpense } = useContext(ExpenseContext);
   const nameRef = useRef(null);
   const amountRef = useRef(null);
 
   const onSubmit = (event) => {
     event.preventDefault();
-    addExpenses({
+    addExpense({
       name: nameRef.current.value,
       amount: amountRef.current.value,
     });
@@ -21,14 +21,6 @@ const AddExpense = () => {
         <input ref={amountRef} required />
         <button type="submit">Add</button>
       </form>
-
-      {expenses.map((expense) => (
-        <div key={expense.id}>
-          <p>{expense.name}</p>
-          <span>{expense.amount}</span>
-          <span>{expense?.dateAdded}</span>
-        </div>
-      ))}
     </div>
   );
 };
