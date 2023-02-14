@@ -11,6 +11,14 @@ const ExpenseContext = createContext({
   deleteExpense: (id) => {
     return;
   },
+
+  addBudget: ({ name, max }) => {
+    return;
+  },
+
+  deleteBudget: (id) => {
+    return;
+  },
 });
 
 const ExpensesProvider = (props) => {
@@ -30,14 +38,14 @@ const ExpensesProvider = (props) => {
   }
 
   function deleteExpense(id) {
-    setExpenses(expenses.filter((item) => item.id !== id));
+    setExpenses(expenses.filter((expense) => expense.id !== id));
   }
 
-  function editExpense(id) {
-    setExpenses(expenses.filter((item) => item.id !== id));
-  }
+  // function editExpense(id) {
+  //   setExpenses(expenses.filter((item) => item.id !== id));
+  // }
 
-  function addBudget({ name, max, id }) {
+  function addBudget({ name, max }) {
     setBudgets((prevBudgets) => [
       ...prevBudgets,
       {
@@ -48,8 +56,14 @@ const ExpensesProvider = (props) => {
     ]);
   }
 
+  function deleteBudget(id) {
+    setBudgets(budgets.filter((budget) => budget.id !== id));
+  }
+
   return (
-    <ExpenseContext.Provider value={{ expenses, addExpense, deleteExpense }}>
+    <ExpenseContext.Provider
+      value={{ expenses, addExpense, deleteExpense, deleteBudget, addBudget }}
+    >
       {props.children}
     </ExpenseContext.Provider>
   );

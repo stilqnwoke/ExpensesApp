@@ -1,16 +1,16 @@
 import React, { useContext, useRef } from "react";
-import { ExpenseContext } from "../../store/expenses-reducer.tsx";
+import { ExpenseContext } from "../../store/expenses-reducer";
 
-const AddExpense = () => {
-  const { addExpense } = useContext(ExpenseContext);
+const AddBudget = () => {
+  const { addBudget } = useContext(ExpenseContext);
   const nameRef = useRef(null);
-  const amountRef = useRef(null);
+  const maxRef = useRef(null);
 
   const onSubmit = (event) => {
     event.preventDefault();
-    addExpense({
+    addBudget({
       name: nameRef.current.value,
-      amount: amountRef.current.value,
+      max: maxRef.current.value,
     });
   };
 
@@ -18,11 +18,11 @@ const AddExpense = () => {
     <div>
       <form onSubmit={onSubmit}>
         <input ref={nameRef} required />
-        <input ref={amountRef} required />
+        <input ref={maxRef} required />
         <button type="submit">Add</button>
       </form>
     </div>
   );
 };
 
-export default AddExpense;
+export default AddBudget;
