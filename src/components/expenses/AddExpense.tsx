@@ -5,11 +5,11 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import PaidOutlinedIcon from "@mui/icons-material/PaidOutlined";
 import { validateForm } from "../../utils/validationHelpers.ts";
+import { MenuItem } from "@mui/material";
 
 const AddExpense = () => {
   const { addExpense, budgets } = useContext(ExpenseContext);
@@ -95,7 +95,7 @@ const AddExpense = () => {
             onChange={handleChange}
           >
             {budgets.map((budget) => (
-              <MenuItem value={budget.id} key={budget.id}>
+              <MenuItem value={budget.id} key={budget.key}>
                 <em>{budget.name}</em>
               </MenuItem>
             ))}
