@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from "react";
-import { ExpenseContext } from "../../store/expenses-reducer";
+import { ExpenseContext } from "../../store/expenses-reducer.tsx";
 
 const AddBudget = () => {
   const { addBudget } = useContext(ExpenseContext);

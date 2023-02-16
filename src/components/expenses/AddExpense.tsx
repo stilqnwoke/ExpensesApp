@@ -8,12 +8,20 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
+import PaidOutlinedIcon from "@mui/icons-material/PaidOutlined";
+import { validateForm } from "../../utils/validationHelpers.ts";
 
 const AddExpense = () => {
-  const { addExpense } = useContext(ExpenseContext);
+  const { addExpense, budgets } = useContext(ExpenseContext);
+  const [budgetCategory, setBudgetCategory] = useState("");
   const nameRef = useRef(null);
   const amountRef = useRef(null);
-  const [budgetCategory, setBudgetCategory] = useState("");
+
+  let isValid = validateForm(
+    nameRef.current?.value,
+    amountRef.current?.value,
+    budgetCategory
+  );
 
   const handleChange = (event: SelectChangeEvent) => {
     setBudgetCategory(event.target.value);
@@ -25,7 +33,12 @@ const AddExpense = () => {
     addExpense({
       name: nameRef.current.value,
       amount: amountRef.current.value,
+      budgetId: budgetCategory,
     });
+
+    nameRef.current.value = "";
+    amountRef.current.value = "";
+    setBudgetCategory("");
   };
 
   return (
@@ -34,23 +47,26 @@ const AddExpense = () => {
         component="form"
         sx={{
           "& > :not(style)": { m: 1, width: "24ch" },
-          border: "1px dashed grey",
+          border: "1px solid grey",
           display: "flex",
+
           flexDirection: "column",
           alignItems: "center",
-          width: 300,
+          width: 280,
+          padding: 2,
         }}
-        noValidate
-        autoComplete="off"
         onSubmit={onSubmit}
       >
+        <h2>Add an Expense</h2>
+
         <TextField
           required
           id="outlined-required"
-          ref={nameRef}
+          inputRef={nameRef}
           label="Description"
           variant="outlined"
           size="small"
+          type="text"
         />
 
         <TextField
@@ -59,10 +75,11 @@ const AddExpense = () => {
           InputProps={{
             endAdornment: <InputAdornment position="end">BGN</InputAdornment>,
           }}
-          ref={amountRef}
+          inputRef={amountRef}
           label="Amount"
           variant="outlined"
           size="small"
+          type="number"
         />
 
         <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
@@ -77,16 +94,21 @@ const AddExpense = () => {
             label="Budget Category"
             onChange={handleChange}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            {budgets.map((budget) => (
+              <MenuItem value={budget.id} key={budget.id}>
+                <em>{budget.name}</em>
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
 
-        <Button variant="contained" size="medium">
+        <Button
+          disabled={!isValid}
+          variant="contained"
+          size="medium"
+          startIcon={<PaidOutlinedIcon />}
+          type="submit"
+        >
           Add Expense
         </Button>
       </Box>
