@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { ExpenseContext } from "../../store/expenses-reducer.tsx";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -10,18 +10,15 @@ import FormControl from "@mui/material/FormControl";
 import PaidOutlinedIcon from "@mui/icons-material/PaidOutlined";
 import { validateForm } from "../../utils/validationHelpers.ts";
 import { MenuItem } from "@mui/material";
+import "./AddExpense.css";
 
 const AddExpense = () => {
   const { addExpense, budgets } = useContext(ExpenseContext);
   const [budgetCategory, setBudgetCategory] = useState("");
-  const nameRef = useRef(null);
-  const amountRef = useRef(null);
+  const [expenseName, setExpenseName] = useState("");
+  const [expenseAmount, setExpenseAmount] = useState("");
 
-  let isValid = validateForm(
-    nameRef.current?.value,
-    amountRef.current?.value,
-    budgetCategory
-  );
+  let isValid = validateForm(expenseName, expenseAmount, budgetCategory);
 
   const handleChange = (event: SelectChangeEvent) => {
     setBudgetCategory(event.target.value);
@@ -31,13 +28,13 @@ const AddExpense = () => {
     event.preventDefault();
 
     addExpense({
-      name: nameRef.current.value,
-      amount: amountRef.current.value,
+      name: expenseName,
+      amount: expenseAmount,
       budgetId: budgetCategory,
     });
 
-    nameRef.current.value = "";
-    amountRef.current.value = "";
+    setExpenseName("");
+    setExpenseAmount("");
     setBudgetCategory("");
   };
 
@@ -46,10 +43,15 @@ const AddExpense = () => {
       <Box
         component="form"
         sx={{
-          "& > :not(style)": { m: 1, width: "24ch" },
-          border: "1px solid grey",
+          "& > :not(style)": {
+            m: 1,
+            width: "24ch",
+          },
+          // border: "1px solid grey",
           display: "flex",
-
+          backgroundColor: "white",
+          borderRadius: 6,
+          boxShadow: 5,
           flexDirection: "column",
           alignItems: "center",
           width: 280,
@@ -62,7 +64,10 @@ const AddExpense = () => {
         <TextField
           required
           id="outlined-required"
-          inputRef={nameRef}
+          value={expenseName}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setExpenseName(event.target.value);
+          }}
           label="Description"
           variant="outlined"
           size="small"
@@ -75,7 +80,10 @@ const AddExpense = () => {
           InputProps={{
             endAdornment: <InputAdornment position="end">BGN</InputAdornment>,
           }}
-          inputRef={amountRef}
+          value={expenseAmount}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setExpenseAmount(event.target.value);
+          }}
           label="Amount"
           variant="outlined"
           size="small"

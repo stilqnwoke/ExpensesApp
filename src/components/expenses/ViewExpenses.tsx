@@ -3,11 +3,12 @@ import { ExpenseContext } from "../../store/expenses-reducer.tsx";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Box } from "framer-motion";
 import Divider from "@mui/material/Divider";
 
 import Button from "@mui/material/Button";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { Tooltip, IconButton } from "@mui/material";
 
 const ViewExpenses = () => {
   const { expenses, deleteExpense } = useContext(ExpenseContext);
@@ -24,7 +25,15 @@ const ViewExpenses = () => {
             exit={{ y: "35%", opacity: 0 }}
           >
             <List
-              sx={{ width: "100%", maxWidth: 500, bgcolor: "background.paper" }}
+              sx={{
+                width: "100%",
+                maxWidth: 500,
+                bgcolor: "background.paper",
+                borderRadius: 2,
+                boxShadow: 5,
+                border: "1px solid gray",
+                marginBottom: 1,
+              }}
             >
               <ListItem>
                 <ListItemText
@@ -34,27 +43,33 @@ const ViewExpenses = () => {
 
                 <ListItemText
                   primary={expense.name}
-                  secondary={expense.dateAdded}
+                  secondary={`Date added: ${expense.dateAdded}`}
                 />
 
-                <Button
-                  variant="contained"
-                  size="medium"
-                  startIcon={<DeleteOutlineIcon />}
-                  onClick={() => deleteExpense(expense.id)}
-                  sx={{
-                    backgroundColor: "red",
-                    ":hover": {
-                      bgcolor: "gray",
-                      color: "white",
-                    },
-                  }}
-                >
-                  Delete
-                </Button>
+                <Tooltip title="REMOVE">
+                  <IconButton>
+                    <DeleteOutlineIcon
+                      sx={{
+                        backgroundColor: "crimson",
+                        borderRadius: 2,
+                        boxShadow: 3,
+                        display: "flex",
+                        justifyContent: "end",
+                        width: 36,
+                        margin: 0,
+                        fontSize: 30,
+                        cursor: "pointer",
+                        border: "1px solid gray",
+                        ":hover": {
+                          bgcolor: "gray",
+                          color: "white",
+                        },
+                      }}
+                      onClick={() => deleteExpense(expense.id)}
+                    />
+                  </IconButton>
+                </Tooltip>
               </ListItem>
-
-              <Divider variant="fullWidth" component="li" />
             </List>
           </motion.div>
         ))}

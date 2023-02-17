@@ -43,10 +43,6 @@ const ExpensesProvider = (props) => {
     setExpenses(expenses.filter((expense) => expense.id !== id));
   }
 
-  // function editExpense(id) {
-  //   setExpenses(expenses.filter((item) => item.id !== id));
-  // }
-
   function addBudget({ name, max }) {
     setBudgets((prevBudgets) => [
       ...prevBudgets,
