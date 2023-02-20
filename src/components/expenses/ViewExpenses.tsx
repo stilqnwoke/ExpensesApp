@@ -3,10 +3,7 @@ import { ExpenseContext } from "../../store/expenses-reducer.tsx";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import { motion, AnimatePresence, Box } from "framer-motion";
-import Divider from "@mui/material/Divider";
-
-import Button from "@mui/material/Button";
+import { motion, AnimatePresence } from "framer-motion";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { Tooltip, IconButton } from "@mui/material";
 

@@ -1,0 +1,10 @@
+.selected {
+  border: 4px solid;
+  outline: none;
+  border-color: #aa1501;
+  box-shadow: 0 0 10px #aa1501;
+}
+
+.stack__item {
+  border: 1px solid gray;
+}

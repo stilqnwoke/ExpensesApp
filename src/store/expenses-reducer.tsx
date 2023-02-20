@@ -5,6 +5,7 @@ import useLocalStorage from "../utils/localStorageHook.ts";
 const ExpenseContext = createContext({
   expenses: [],
   budgets: [],
+  selectedBudget: "",
   addExpense: ({ name, amount, budgetId }) => {
     return;
   },
@@ -20,11 +21,16 @@ const ExpenseContext = createContext({
   deleteBudget: (id) => {
     return;
   },
+
+  highlightedBudget: (budgetId) => {
+    return;
+  },
 });
 
 const ExpensesProvider = (props) => {
   const [expenses, setExpenses] = useLocalStorage("expenses", []);
   const [budgets, setBudgets] = useLocalStorage("budgets", []);
+  const [selectedBudget, setSelectedBudget] = useState("");
 
   function addExpense({ name, amount, budgetId }) {
     setExpenses((prevExpenses) => [
@@ -58,6 +64,10 @@ const ExpensesProvider = (props) => {
     setBudgets(budgets.filter((budget) => budget.id !== id));
   }
 
+  function highlightedBudget(budgetId) {
+    setSelectedBudget(budgetId);
+  }
+
   return (
     <ExpenseContext.Provider
       value={{
@@ -67,6 +77,8 @@ const ExpensesProvider = (props) => {
         deleteBudget,
         addBudget,
         budgets,
+        selectedBudget,
+        highlightedBudget,
       }}
     >
       {props.children}

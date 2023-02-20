@@ -1,0 +1,15 @@
+.main__wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.budgets__wrapper {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.forms__wrapper {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
+}

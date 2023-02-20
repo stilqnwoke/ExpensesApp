@@ -13,7 +13,7 @@ import { MenuItem } from "@mui/material";
 import "./AddExpense.css";
 
 const AddExpense = () => {
-  const { addExpense, budgets } = useContext(ExpenseContext);
+  const { addExpense, budgets, highlightedBudget } = useContext(ExpenseContext);
   const [budgetCategory, setBudgetCategory] = useState("");
   const [expenseName, setExpenseName] = useState("");
   const [expenseAmount, setExpenseAmount] = useState("");
@@ -21,6 +21,8 @@ const AddExpense = () => {
   let isValid = validateForm(expenseName, expenseAmount, budgetCategory);
 
   const handleChange = (event: SelectChangeEvent) => {
+    console.log(event.target.value);
+    highlightedBudget(event.target.value);
     setBudgetCategory(event.target.value);
   };
 
@@ -47,7 +49,7 @@ const AddExpense = () => {
             m: 1,
             width: "24ch",
           },
-          // border: "1px solid grey",
+          border: "1px solid grey",
           display: "flex",
           backgroundColor: "white",
           borderRadius: 6,

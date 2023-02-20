@@ -1,14 +1,17 @@
 import "./App.css";
-import AddExpense from "./components/expenses/AddExpense.tsx";
-import ViewExpenses from "./components/expenses/ViewExpenses.tsx";
-import AddBudget from "./components/budgets/AddBudget.tsx";
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "./utils/theme.ts";
+import Header from "./components/header/Header.tsx";
+import Main from "./components/Main.tsx";
 
 function App() {
   return (
     <div className="App">
-      <AddExpense />
-      <ViewExpenses />
-      <AddBudget />
+      <ThemeProvider theme={theme}>
+        <Header />
+
+        <Main />
+      </ThemeProvider>
     </div>
   );
 }

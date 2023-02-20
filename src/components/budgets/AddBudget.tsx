@@ -31,7 +31,9 @@ const AddBudget = () => {
           "& > :not(style)": { m: 1, width: "24ch" },
           border: "1px solid grey",
           display: "flex",
-
+          backgroundColor: "white",
+          borderRadius: 6,
+          boxShadow: 5,
           flexDirection: "column",
           alignItems: "center",
           width: 280,
@@ -39,7 +41,7 @@ const AddBudget = () => {
         }}
         onSubmit={onSubmit}
       >
-        <h2>Add an Expense</h2>
+        <h2>Add a Budget</h2>
 
         <TextField
           required
@@ -77,7 +79,7 @@ const AddBudget = () => {
           startIcon={<BusinessCenterOutlinedIcon />}
           type="submit"
         >
-          Add Expense
+          Add Budget
         </Button>
       </Box>
     </div>
