@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ExpenseContext } from "../../store/expenses-reducer";
+import { ExpenseContext } from "../../store/expenses-reducer.tsx";
 
 const DeleteBudget = (id) => {
   const { deleteBudget } = useContext(ExpenseContext);

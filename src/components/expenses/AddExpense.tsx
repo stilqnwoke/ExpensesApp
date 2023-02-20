@@ -58,6 +58,7 @@ const AddExpense = () => {
           flexDirection: "column",
           alignItems: "center",
           width: 280,
+          marginLeft: "14px",
           padding: 2,
         }}
         onSubmit={onSubmit}

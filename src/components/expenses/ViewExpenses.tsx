@@ -7,13 +7,88 @@ import { motion, AnimatePresence } from "framer-motion";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { Tooltip, IconButton } from "@mui/material";
 
-const ViewExpenses = () => {
-  const { expenses, deleteExpense } = useContext(ExpenseContext);
+const ViewExpenses = ({ budgetId, budgetName, budgetMax }) => {
+  const { expenses, deleteExpense, getBudgetExpensesTotal } = useContext(
+    ExpenseContext
+  );
+
+  console.log(budgetId);
+
+  const filteredExpenses =
+    budgetId != "" ? getBudgetExpensesTotal(budgetId) : expenses;
+
+  const amount = filteredExpenses.reduce(
+    (sum, expense) => sum + +expense.amount,
+    0
+  );
+
+  console.log(filteredExpenses);
 
   return (
     <div>
+      <List
+        sx={{
+          width: "100%",
+          maxWidth: 500,
+          bgcolor: "background.paper",
+          borderRadius: 2,
+          boxShadow: 5,
+          border: "1px solid gray",
+          marginBottom: 1,
+          backgroundColor: "#454545",
+          color: "black",
+        }}
+      >
+        <ListItem>
+          <ListItemText
+            secondaryTypographyProps={{
+              color: "white",
+              width: "150px",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+            }}
+            sx={{ width: 6 }}
+            primary={"Name:"}
+            secondary={budgetName}
+          />
+          <ListItemText
+            secondaryTypographyProps={{
+              color: "white",
+            }}
+            sx={{ width: 6 }}
+            primary={"Budget:"}
+            secondary={`${budgetMax} BGN`}
+          />
+
+          <ListItemText
+            secondaryTypographyProps={{
+              color: "white",
+            }}
+            sx={{ width: 6 }}
+            primary={"Remaining:"}
+            secondary={`${budgetMax - amount} BGN`}
+          />
+
+          <ListItemText
+            secondaryTypographyProps={{
+              color: "white",
+            }}
+            sx={{ width: 6 }}
+            primary={"Spent:"}
+            secondary={`${amount} BGN`}
+          />
+
+          <ListItemText sx={{ width: 6 }} primary={"Filter by:"} />
+        </ListItem>
+      </List>
+
+      {filteredExpenses.length == 0 && (
+        <div>{`No expenses for  ${budgetName}`}</div>
+      )}
+
       <AnimatePresence>
-        {expenses.map((expense) => (
+        {filteredExpenses.map((expense) => (
           <motion.div
             key={expense.id}
             initial={{ y: "50%", opacity: 0, scale: 0.5 }}

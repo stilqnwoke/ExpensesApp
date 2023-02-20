@@ -5,10 +5,19 @@ const ProgressBar = ({ progress }) => {
   const [style, setStyle] = useState({});
 
   setTimeout(() => {
-    const newStyle = {
-      opacity: 1,
-      width: `${progress}%`,
-    };
+    let newStyle;
+
+    if (progress > 100) {
+      newStyle = {
+        opacity: 1,
+        width: `${100}%`,
+      };
+    } else {
+      newStyle = {
+        opacity: 1,
+        width: `${progress}%`,
+      };
+    }
 
     setStyle(newStyle);
   }, 200);
@@ -16,10 +25,20 @@ const ProgressBar = ({ progress }) => {
   return (
     <div className="progress">
       <div className="progress-done" style={style}>
-        {progress == 0 ? "" : `${progress}%`}
+        {progressRefactor(progress)}
       </div>
     </div>
   );
 };
+
+function progressRefactor(progress) {
+  if (progress > 100) {
+    return "You have exceeded the max budget";
+  }
+  if (progress === 0) {
+    return "";
+  }
+  return `${progress}%`;
+}
 
 export default ProgressBar;
