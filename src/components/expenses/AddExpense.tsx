@@ -38,6 +38,7 @@ const AddExpense = () => {
     setExpenseName("");
     setExpenseAmount("");
     setBudgetCategory("");
+    highlightedBudget("");
   };
 
   return (

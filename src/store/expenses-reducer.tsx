@@ -25,6 +25,10 @@ const ExpenseContext = createContext({
   highlightedBudget: (budgetId) => {
     return;
   },
+
+  getBudgetExpensesTotal: (budgetId) => {
+    return;
+  },
 });
 
 const ExpensesProvider = (props) => {
@@ -60,6 +64,10 @@ const ExpensesProvider = (props) => {
     ]);
   }
 
+  function getBudgetExpensesTotal(budgetId) {
+    return expenses.filter((expense) => expense.budgetId === budgetId);
+  }
+
   function deleteBudget(id) {
     setBudgets(budgets.filter((budget) => budget.id !== id));
   }
@@ -79,6 +87,7 @@ const ExpensesProvider = (props) => {
         budgets,
         selectedBudget,
         highlightedBudget,
+        getBudgetExpensesTotal,
       }}
     >
       {props.children}
