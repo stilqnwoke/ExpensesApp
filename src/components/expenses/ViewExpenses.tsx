@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useCallback, useState, useEffect } from "react";
 import { ExpenseContext } from "../../store/expenses-reducer.tsx";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -6,23 +6,30 @@ import ListItemText from "@mui/material/ListItemText";
 import { motion, AnimatePresence } from "framer-motion";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { Tooltip, IconButton } from "@mui/material";
+import "./ViewExpenses.css";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+
+const options = ["", "Biggest Expense", "Smallest Expense", "Date Added"];
 
 const ViewExpenses = ({ budgetId, budgetName, budgetMax }) => {
   const { expenses, deleteExpense, getBudgetExpensesTotal } = useContext(
     ExpenseContext
   );
+  const [value, setValue] = useState<string | null>(options[0]);
+  const [inputValue, setInputValue] = useState("");
+  const [filteredExpenses, setFilteredExpenses] = useState([]);
 
-  console.log(budgetId);
-
-  const filteredExpenses =
-    budgetId != "" ? getBudgetExpensesTotal(budgetId) : expenses;
+  useEffect(() => {
+    setFilteredExpenses(
+      budgetId != "" ? getBudgetExpensesTotal(budgetId) : expenses
+    );
+  }, [filteredExpenses, expenses]);
 
   const amount = filteredExpenses.reduce(
     (sum, expense) => sum + +expense.amount,
     0
   );
-
-  console.log(filteredExpenses);
 
   return (
     <div>
@@ -35,7 +42,7 @@ const ViewExpenses = ({ budgetId, budgetName, budgetMax }) => {
           boxShadow: 5,
           border: "1px solid gray",
           marginBottom: 1,
-          backgroundColor: "#454545",
+          backgroundImage: "linear-gradient(to bottom, #2155, #da9486)",
           color: "black",
         }}
       >
@@ -44,19 +51,72 @@ const ViewExpenses = ({ budgetId, budgetName, budgetMax }) => {
             secondaryTypographyProps={{
               color: "white",
               width: "150px",
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-              textOverflow: "ellipsis",
             }}
-            sx={{ width: 6 }}
+            sx={{ width: 6, margin: 0 }}
             primary={"Name:"}
             secondary={budgetName}
           />
           <ListItemText
+            sx={{ width: 6, margin: 0 }}
+            primary={
+              <div>
+                <Autocomplete
+                  value={value}
+                  onChange={(event: any, newValue: string | null) => {
+                    setValue(newValue);
+                  }}
+                  inputValue={inputValue}
+                  onInputChange={(event, newInputValue) => {
+                    setInputValue(newInputValue);
+
+                    switch (newInputValue) {
+                      case "Biggest Expense":
+                        const tempArrayDesc = filteredExpenses.sort(
+                          (a, b) => b.amount - a.amount
+                        );
+                        setFilteredExpenses(tempArrayDesc);
+
+                        console.log(filteredExpenses);
+                        break;
+                      case "Smallest Expense":
+                        const tempArrayAsc = filteredExpenses.sort(
+                          (a, b) => a.amount - b.amount
+                        );
+                        setFilteredExpenses(tempArrayAsc);
+                        console.log(filteredExpenses);
+
+                        break;
+                      case "Date Added":
+                        const tempArrayDate = filteredExpenses.sort(
+                          (a, b) => a.dateAdded - b.dateAdded
+                        );
+                        setFilteredExpenses(tempArrayDate);
+                        console.log(filteredExpenses);
+
+                        break;
+                      default:
+                        const temp = filteredExpenses;
+                        setFilteredExpenses(temp);
+                        break;
+                    }
+                  }}
+                  id="controllable-states-demo"
+                  options={options}
+                  sx={{ width: 200 }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Filter By" />
+                  )}
+                />
+              </div>
+            }
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText
             secondaryTypographyProps={{
               color: "white",
             }}
-            sx={{ width: 6 }}
+            sx={{ width: 6, margin: 0 }}
             primary={"Budget:"}
             secondary={`${budgetMax} BGN`}
           />
@@ -65,7 +125,7 @@ const ViewExpenses = ({ budgetId, budgetName, budgetMax }) => {
             secondaryTypographyProps={{
               color: "white",
             }}
-            sx={{ width: 6 }}
+            sx={{ width: 6, margin: 0 }}
             primary={"Remaining:"}
             secondary={`${budgetMax - amount} BGN`}
           />
@@ -74,17 +134,15 @@ const ViewExpenses = ({ budgetId, budgetName, budgetMax }) => {
             secondaryTypographyProps={{
               color: "white",
             }}
-            sx={{ width: 6 }}
+            sx={{ width: 6, margin: 0 }}
             primary={"Spent:"}
             secondary={`${amount} BGN`}
           />
-
-          <ListItemText sx={{ width: 6 }} primary={"Filter by:"} />
         </ListItem>
       </List>
 
       {filteredExpenses.length == 0 && (
-        <div>{`No expenses for  ${budgetName}`}</div>
+        <div className="no__expenses">{`No expenses for  ${budgetName}`}</div>
       )}
 
       <AnimatePresence>
