@@ -22,15 +22,17 @@ const ListBudgets = () => {
     selectedBudget,
     getBudgetExpensesTotal,
     deleteBudget,
+    showExpenses,
+    showOrHideExpenses,
   } = useContext(ExpenseContext);
 
-  const [showExpenses, setShowExpenses] = useState(false);
+  // const [showExpenses, setShowExpenses] = useState(false);
   const [selectedId, setSelectedId] = useState("");
   const [budgetName, setBudgetName] = useState("");
   const [budgetMax, setBudgetMax] = useState("");
 
   function clickedExpenses(budgetId, budgetName, budgetMax) {
-    setShowExpenses(true);
+    showOrHideExpenses(true);
     setSelectedId(budgetId);
     setBudgetName(budgetName);
     setBudgetMax(budgetMax);
@@ -85,6 +87,7 @@ const ListBudgets = () => {
                     >
                       <ListItem>
                         <ListItemText
+                          sx={{ width: 6 }}
                           primaryTypographyProps={{
                             paddingLeft: "8px",
                             width: "150px",

@@ -9,13 +9,16 @@ import { Tooltip, IconButton } from "@mui/material";
 import "./ViewExpenses.css";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 const options = ["", "Biggest Expense", "Smallest Expense", "Date Added"];
 
 const ViewExpenses = ({ budgetId, budgetName, budgetMax }) => {
-  const { expenses, deleteExpense, getBudgetExpensesTotal } = useContext(
-    ExpenseContext
-  );
+  const {
+    expenses,
+    deleteExpense,
+    getBudgetExpensesTotal,
+    showOrHideExpenses,
+  } = useContext(ExpenseContext);
   const [value, setValue] = useState<string | null>(options[0]);
   const [inputValue, setInputValue] = useState("");
   const [filteredExpenses, setFilteredExpenses] = useState([]);
@@ -112,6 +115,27 @@ const ViewExpenses = ({ budgetId, budgetName, budgetMax }) => {
           />
         </ListItem>
         <ListItem>
+          <ListItemText sx={{ width: 6, margin: 0, padding: 0 }}>
+            <Tooltip title="GO BACK">
+              <IconButton>
+                <ArrowBackIcon
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: 10,
+                    boxShadow: 3,
+
+                    fontSize: 30,
+
+                    ":hover": {
+                      color: "darkred",
+                      transition: "transition: 3s ease-in-out",
+                    },
+                  }}
+                  onClick={() => showOrHideExpenses(false)}
+                />
+              </IconButton>
+            </Tooltip>
+          </ListItemText>
           <ListItemText
             secondaryTypographyProps={{
               color: "white",

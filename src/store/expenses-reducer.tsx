@@ -6,6 +6,7 @@ const ExpenseContext = createContext({
   expenses: [],
   budgets: [],
   selectedBudget: "",
+  showExpenses: false,
   addExpense: ({ name, amount, budgetId }) => {
     return;
   },
@@ -29,12 +30,17 @@ const ExpenseContext = createContext({
   getBudgetExpensesTotal: (budgetId) => {
     return;
   },
+
+  showOrHideExpenses: (value) => {
+    return;
+  },
 });
 
 const ExpensesProvider = (props) => {
   const [expenses, setExpenses] = useLocalStorage("expenses", []);
   const [budgets, setBudgets] = useLocalStorage("budgets", []);
   const [selectedBudget, setSelectedBudget] = useState("");
+  const [showExpenses, setShowExpenses] = useState(false);
 
   function addExpense({ name, amount, budgetId }) {
     setExpenses((prevExpenses) => [
@@ -76,6 +82,10 @@ const ExpensesProvider = (props) => {
     setSelectedBudget(budgetId);
   }
 
+  function showOrHideExpenses(value) {
+    setShowExpenses(value);
+  }
+
   return (
     <ExpenseContext.Provider
       value={{
@@ -88,6 +98,8 @@ const ExpensesProvider = (props) => {
         selectedBudget,
         highlightedBudget,
         getBudgetExpensesTotal,
+        showExpenses,
+        showOrHideExpenses,
       }}
     >
       {props.children}
