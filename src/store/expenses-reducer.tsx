@@ -66,6 +66,7 @@ const ExpensesProvider = (props) => {
         name,
         max,
         id: uuidv4(),
+        dateAdded: new Date().toLocaleDateString(),
       },
     ]);
   }

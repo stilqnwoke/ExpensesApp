@@ -13,3 +13,12 @@
   flex-direction: row;
   margin-top: 1rem;
 }
+
+.side__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.pie {
+  align-self: flex-end;
+}

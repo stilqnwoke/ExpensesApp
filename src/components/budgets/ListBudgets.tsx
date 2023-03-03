@@ -51,6 +51,7 @@ const ListBudgets = () => {
         <div>
           <AnimatePresence>
             {budgets.map((budget) => {
+              console.log(budget);
               const amount = getBudgetExpensesTotal(budget.id).reduce(
                 (sum, expense) => sum + +expense.amount,
                 0
